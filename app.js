@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/wikiDB");
+mongoose.connect('mongodb+srv://raju:raju2641@cluster0.gc7sbde.mongodb.net/wikiDB');;
 const articleSchema = {
     title : String,
     content : String
@@ -23,10 +23,32 @@ const Article = mongoose.model("Article", articleSchema)
 
 app.get("/articles", function (req, res) {
     Article.find({}, function (err , foundArticles) {
-        console.log(foundArticles);
+      if (!error){
+        res.send(foundArticles);
+
+      }else{
+        res.send(err)
+      }
+     
 
     });
 
+});
+app.post("/articles" , function (req, res) {
+  console.log( );
+   console.log( );
+   const newArticle = new Article({
+    title : req.body.title ,
+    content : req.body.content
+   });
+  newArticle.save(function (err) {
+    if(!err){
+      console.log("success to add articles");
+    }else{
+      console.log("not succes");
+    }
+  }); 
+  
 });
 
 
